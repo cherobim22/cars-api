@@ -4,6 +4,9 @@ const routes = express.Router();
 const MarcasController = require('./controllers/MarcasController');
 
 // Root endpoint
+routes.get("/", (req, res) => {
+    res.send('v1.0.0')
+});
 routes.get("/api/marcas/", MarcasController.read);
 routes.get("/api/marcas/:id", MarcasController.readById);
 routes.post("/api/marcas/", MarcasController.create);
