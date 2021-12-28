@@ -1,14 +1,17 @@
 const axios = require('axios');
-
-async function getMarcas(){
-    const response = await axios({
-        url:'http://localhost:3333/api/marcas/',
-        method:'get'
-    })
-    const marcas = response.data;
-    return marcas;
+const generate = () => {
+    return crypto.randomBytes(20).toString('hex');
 }
 
-test('posts', async function () {
-    expect.arrayContaining(getMarcas());
+const request = function (url, method, data){
+    return axios({url, method, data})
+}
+
+
+test('check if api response return array data greater than 0', async function () {
+    const {data, status} = await request('http://localhost:3333/api/marcas')
+    console.log(data, status)
+    expect(data.length).toBeGreaterThan(120);
 });
+
+
