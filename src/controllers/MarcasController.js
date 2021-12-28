@@ -27,6 +27,7 @@ module.exports = {
         return res.json({resp});
     },
     async read(req, res){
+        const page = req.query.page ?? 1;
         let date = new Date()
         const now = date.toLocaleString(); 
         let string = '';
@@ -45,7 +46,7 @@ module.exports = {
         const marcas = await connection('marcas').select('*')
         .where((builder) => {
             builder.whereBetween('created_at', [start, end]);
-        }).orderBy('id', 'desc');
+        }).orderBy('id', 'desc').paginate({perPage:10,  currentPage: page});
 
         return res.json(marcas);
     },
