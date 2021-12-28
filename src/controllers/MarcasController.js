@@ -5,9 +5,9 @@ module.exports = {
         let errors=[]
         const validate =  [ 'name', 'origin'] ;
         const body = Object.keys(req.body);
-        let difference = validate.filter(x => !body.includes(x));
-        let {name, origin } = req.body;
-        let date = new Date();
+        const difference = validate.filter(x => !body.includes(x));
+        const {name, origin } = req.body;
+        const date = new Date();
         const data = date.toLocaleString();
         const regex = new RegExp('/', 'g');
         const created_at = data.replace(regex, '-');
@@ -16,14 +16,14 @@ module.exports = {
         difference.forEach(e => {
             errors.push("Especifique o campo "+e);
         });
-    
+
         if (errors.length){
             res.status(400).json({"error":errors});
             return;
         }
-    
-       let resp =  await connection('marcas').insert({name, origin, created_at, updated_at})
-    
+
+        let resp =  await connection('marcas').insert({name, origin, created_at, updated_at})
+
         return res.json({resp});
     },
     async read(req, res){
