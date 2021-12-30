@@ -1,4 +1,4 @@
-const connection = require('../database/connection');
+const brandsServie = require('../services/brands');
 
 module.exports = {
     async create(req, res){
@@ -11,7 +11,6 @@ module.exports = {
         const data = date.toLocaleString();
         const regex = new RegExp('/', 'g');
         const created_at = data.replace(regex, '-');
-        const updated_at = data.replace(regex, '-');
 
         difference.forEach(e => {
             errors.push("Especifique o campo "+e);
@@ -22,8 +21,7 @@ module.exports = {
             return;
         }
 
-        let resp =  await connection('brands').insert({name, origin, created_at, updated_at})
-
+        let resp =  await brandsServie.insertBrand(name, origin, created_at)
         return res.json({resp});
     },
     async read(req, res){
@@ -43,12 +41,7 @@ module.exports = {
            end = req.query.end;
         }
 
-        const brands = await connection('brands').select('*')
-            .where((builder) => {
-                builder.whereBetween('created_at', [start, end]);
-            })
-            .orderBy('id', 'desc')
-            .paginate({perPage:10,  currentPage: page});
+        const brands = await brandsServie.getBrands(start, end, page);
 
         return res.json(brands);
     },

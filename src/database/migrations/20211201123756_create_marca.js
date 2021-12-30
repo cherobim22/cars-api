@@ -4,7 +4,7 @@ exports.up = function(knex) {
       table.increments();
       table.string('name').notNullable();
       table.string('origin').notNullable();
-      table.boolean('status').notNullable();
+      table.boolean('status').notNullable().defaultTo(true);
       table.timestamp('created_at');
       table.timestamp('updated_at');
       table.timestamp('deleted_at');
