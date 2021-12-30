@@ -1,9 +1,10 @@
 
 exports.up = function(knex) {
-    return knex.schema.createTable('marcas', function(table){
+    return knex.schema.createTable('brands', function(table){
       table.increments();
       table.string('name').notNullable();
       table.string('origin').notNullable();
+      table.boolean('status').notNullable();
       table.timestamp('created_at');
       table.timestamp('updated_at');
       table.timestamp('deleted_at');
@@ -11,6 +12,6 @@ exports.up = function(knex) {
   };
   
   exports.down = function(knex) {
-    return knex.schema.dropTable('marcas');
+    return knex.schema.dropTable('brands');
   };
   

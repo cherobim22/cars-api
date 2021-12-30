@@ -14,7 +14,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "knex-paginate": "^3.0.0"
+    "knex-paginate": "^3.0.0",
+    "mysql": "^2.18.1"
   },
   "devDependencies": {
     "cypress": "^9.1.1",
