@@ -18,11 +18,11 @@ module.exports = {
   development:{
     client: 'mysql',
     connection: {
-      host : '127.0.0.1',
-      port : 3306,
-      user : 'cherobim',
-      password : 'cherobim',
-      database : 'projects'
+      host : process.env.HOST,
+      port : process.env.PORT,
+      user : process.env.USER,
+      password : process.env.PASSWORD,
+      database : process.env.DATABASE
     },
     migrations: {
       directory: 'src/database/migrations'
