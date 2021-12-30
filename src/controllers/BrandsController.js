@@ -22,7 +22,7 @@ module.exports = {
             return;
         }
 
-        let resp =  await connection('marcas').insert({name, origin, created_at, updated_at})
+        let resp =  await connection('brands').insert({name, origin, created_at, updated_at})
 
         return res.json({resp});
     },
@@ -43,19 +43,19 @@ module.exports = {
            end = req.query.end;
         }
 
-        const marcas = await connection('marcas').select('*')
+        const brands = await connection('brands').select('*')
             .where((builder) => {
                 builder.whereBetween('created_at', [start, end]);
             })
             .orderBy('id', 'desc')
             .paginate({perPage:10,  currentPage: page});
 
-        return res.json(marcas);
+        return res.json(brands);
     },
 
     async readById(req, res){
         const { id } = req.params;
-        const marca = await connection('marcas').where('id', '=', id).first();
+        const marca = await connection('brands').where('id', '=', id).first();
         
         return res.json(marca);
     },
@@ -81,19 +81,19 @@ module.exports = {
             return;
         }
         
-        await connection('marcas').where('id', '=', id).update({nome, origin, updated_at})
+        await connection('brands').where('id', '=', id).update({nome, origin, updated_at})
     
         return res.json({ msg: 'atualizado com sucesso'});
     },
     async delete(req, res){
         const { id } = req.params;
-        const product = await connection('marcas').where('id', id);
+        const product = await connection('brands').where('id', id);
         const date = new Date();
         const deleted_at = date.toLocaleString();
         const status = 0;
         
         if(product.length){
-            await connection('marcas').where('id', id).update({status, deleted_at});
+            await connection('brands').where('id', id).update({status, deleted_at});
             return res.status(200).json({msg: 'removido com sucesso'});
         }else{
            return res.status(404).json({msg: 'nenhuma marca encontrada com o id '+id});
