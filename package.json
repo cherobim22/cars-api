@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
     "test": "jest --env node",
     "test-c": "cypress open"
   },
@@ -18,17 +19,16 @@
     "mysql": "^2.18.1"
   },
   "devDependencies": {
-    "cypress": "^9.1.1",
-    "sequelize-cli": "^6.2.0",
-    "jest": "^27.4.5",
     "axios": "^0.24.0",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "express": "^4.17.1",
+    "jest": "^27.4.7",
     "knex": "^0.95.11",
     "nodemon": "^2.0.13",
     "pg": "^8.7.1",
     "sequelize": "^6.6.5",
+    "sequelize-cli": "^6.2.0",
     "sqlite3": "^5.0.2"
   }
 }
