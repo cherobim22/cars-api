@@ -1,4 +1,4 @@
-const brandsServie = require('../services/brands');
+const brandService = require('../services/brandService');
 
 module.exports = {
     async create(req, res){
@@ -20,9 +20,14 @@ module.exports = {
             res.status(400).json({"error":errors});
             return;
         }
+        const marca = await brandService.getBy('name', name);
 
-        let resp =  await brandsServie.insertBrand(name, origin, created_at)
-        return res.json({resp});
+        if(marca){
+            res.status(422).json({"error":"this brand already exists"});
+        }
+
+        let resp =  await brandService.insertBrand(name, origin, created_at)
+        return res.json({id: resp});
     },
     async read(req, res){
         const page = req.query.page ?? 1;
@@ -41,14 +46,14 @@ module.exports = {
            end = req.query.end;
         }
 
-        const brands = await brandsServie.getBrands(start, end, page);
+        const brands = await brandService.getBrands(start, end, page);
 
         return res.json(brands);
     },
 
     async readById(req, res){
         const { id } = req.params;
-        const marca = await connection('brands').where('id', '=', id).first();
+        const marca = await brandService.getBy('id', id);
         
         return res.json(marca);
     },
@@ -63,7 +68,7 @@ module.exports = {
         let regex = new RegExp('/', 'g');
         let updated_at = data.replace(regex, '-');
         
-        const {nome, origin} = req.body;     
+        const {name, origin} = req.body;     
 
         difference.forEach(e => {
             errors.push("Especifique o campo "+e);
@@ -74,20 +79,16 @@ module.exports = {
             return;
         }
         
-        await connection('brands').where('id', '=', id).update({nome, origin, updated_at})
-    
+        await brandService.updateBrand(id, name, origin, updated_at)
         return res.json({ msg: 'atualizado com sucesso'});
     },
     async delete(req, res){
         const { id } = req.params;
-        const product = await connection('brands').where('id', id);
-        const date = new Date();
-        const deleted_at = date.toLocaleString();
-        const status = 0;
-        
-        if(product.length){
-            await connection('brands').where('id', id).update({status, deleted_at});
-            return res.status(200).json({msg: 'removido com sucesso'});
+        const brand = await brandService.getBy('id', id);
+
+        if(brand.length){
+            const resp = await brandService.deleteBrand(id);
+            return res.status(200).json({msg: 'removido com sucesso', success: resp});
         }else{
            return res.status(404).json({msg: 'nenhuma marca encontrada com o id '+id});
         }
