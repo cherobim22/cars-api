@@ -12,5 +12,18 @@ module.exports = {
             .orderBy('id', 'desc')
             .paginate({perPage:10,  currentPage: page});
     },
+    async updateBrand(id, name, origin, updated_at){
+        return connection('brands').where('id', '=', id).update({name, origin, updated_at});
+    },
+    async deleteBrand(id){
+        return connection('brands').where('id', id).delete()
+    },
+    async getBy(key, value){
+        if(key === 'id'){
+            return connection('brands').where(key, value);
+        }
+
+        return connection('brands').where(key, value).first();
+    },
 
 };
