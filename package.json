@@ -16,7 +16,8 @@
   "license": "ISC",
   "dependencies": {
     "knex-paginate": "^3.0.0",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "randomstring": "^1.2.1"
   },
   "devDependencies": {
     "axios": "^0.24.0",
