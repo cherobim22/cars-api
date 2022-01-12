@@ -7,7 +7,9 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json());
-app.use(routes);
+
+
+require('./controllers/BrandsController')(app);
 
 
 app.listen(3333);
