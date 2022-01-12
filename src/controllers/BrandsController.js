@@ -1,7 +1,7 @@
 const brandService = require("../services/brandService");
 const router = require("express").Router();
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   let errors = [];
   const validate = ["name", "origin"];
   const body = Object.keys(req.body);
@@ -30,7 +30,7 @@ router.post("/", (req, res) => {
   return res.json({ id: resp });
 });
 
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
   const page = req.query.page ?? 1;
   const date = new Date();
   const now = date.toLocaleString();
@@ -52,14 +52,14 @@ router.get("/", (req, res) => {
   return res.json(brands);
 });
 
-router.get("/:id", (req, res) => {
+router.get("/:id", async (req, res) => {
   const { id } = req.params;
   const marca = await brandService.getBy("id", id);
 
   return res.json(marca);
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id", async (req, res) => {
   const { id } = req.params;
   let errors = [];
   const validate = ["nome", "origin"];
@@ -85,7 +85,7 @@ router.put("/:id", (req, res) => {
   return res.json({ msg: "atualizado com sucesso" });
 });
 
-router.delete("/", (req, res) => {
+router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   const brand = await brandService.getBy("id", id);
 
