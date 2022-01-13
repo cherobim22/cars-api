@@ -1,15 +1,14 @@
 const brandService = require("../services/brandService");
 const router = require("express").Router();
-const validator = require('../utils/validator')
+const validator = require("../utils/validator");
 
 router.post("/", async (req, res) => {
   const validate = await validator(["name", "origin"], Object.keys(req.body));
   const { name, origin } = req.body;
 
-  const date = new Date();
-  const data = date.toLocaleString();
+  const date = new Date().toLocaleString();
   const regex = new RegExp("/", "g");
-  const created_at = data.replace(regex, "-");
+  const created_at = date.replace(regex, "-");
 
   if (validate.length) {
     res.status(400).json({ error: validate });
@@ -21,8 +20,8 @@ router.post("/", async (req, res) => {
     res.status(422).json({ error: "this brand already exists" });
   }
 
-  // let resp = await brandService.insertBrand(name, origin, created_at);
-  return res.json({ id: 'resp' });
+  let resp = await brandService.insertBrand(name, origin, created_at);
+  return res.json({ id: resp });
 });
 
 router.get("/", async (req, res) => {
@@ -50,30 +49,20 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
   const marca = await brandService.getBy("id", id);
-
   return res.json(marca);
 });
 
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
-  let errors = [];
-  const validate = ["nome", "origin"];
-
-  const body = Object.keys(req.body);
+  const validate = await validator(["name", "origin"], Object.keys(req.body));
   const { name, origin } = req.body;
 
-  let difference = validate.filter((x) => !body.includes(x));
-  let date = new Date();
-  let data = date.toLocaleString();
+  let date = new Date().toLocaleString();
   let regex = new RegExp("/", "g");
-  let updated_at = data.replace(regex, "-");
+  let updated_at = date.replace(regex, "-");
 
-  difference.forEach((e) => {
-    errors.push("Especifique o campo " + e);
-  });
-
-  if (errors.length) {
-    res.status(400).json({ error: errors });
+  if (validate.length) {
+    res.status(400).json({ error: validate });
     return;
   }
 
