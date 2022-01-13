@@ -4,9 +4,11 @@ module.exports = {
   async insertBrand(name, origin, created_at) {
     return connection("brands").insert({ name, origin, created_at });
   },
-  async getBrands(start, end, page) {
+  async getBrands(start, end, page, string = '') {
     return connection("brands")
       .select("*")
+      .where('name', 'like', `%${string}%`)
+      .orWhere('origin', 'like', `%${string}%`)
       .where((builder) => {
         builder.whereBetween("created_at", [start, end]);
       })

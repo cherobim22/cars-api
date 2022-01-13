@@ -47,7 +47,7 @@ router.get("/", async (req, res) => {
     end = req.query.end;
   }
 
-  const brands = await brandService.getBrands(start, end, page);
+  const brands = await brandService.getBrands(start, end, page, string);
 
   return res.json(brands);
 });
