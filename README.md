@@ -6,7 +6,7 @@ This project is useful for anyone who wants to learn more about how api works an
 
 - [Node Js](https://nodejs.org/en/)
 - [Npm](https://www.npmjs.com/)
-- [Express](hhttps://expressjs.com)
+- [Express](https://expressjs.com)
 - [Knex](https://knexjs.org/)
 - [Jest](https://jestjs.io/)
 
