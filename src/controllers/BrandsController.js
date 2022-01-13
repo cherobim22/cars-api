@@ -1,23 +1,18 @@
 const brandService = require("../services/brandService");
 const router = require("express").Router();
+const validator = require('../utils/validator')
 
 router.post("/", async (req, res) => {
-  let errors = [];
-  const validate = ["name", "origin"];
-  const body = Object.keys(req.body);
-  const difference = validate.filter((x) => !body.includes(x));
+  const validate = await validator(["name", "origin"], Object.keys(req.body));
   const { name, origin } = req.body;
+
   const date = new Date();
   const data = date.toLocaleString();
   const regex = new RegExp("/", "g");
   const created_at = data.replace(regex, "-");
 
-  difference.forEach((e) => {
-    errors.push("Especifique o campo " + e);
-  });
-
-  if (errors.length) {
-    res.status(400).json({ error: errors });
+  if (validate.length) {
+    res.status(400).json({ error: validate });
     return;
   }
   const marca = await brandService.getBy("name", name);
@@ -26,8 +21,8 @@ router.post("/", async (req, res) => {
     res.status(422).json({ error: "this brand already exists" });
   }
 
-  let resp = await brandService.insertBrand(name, origin, created_at);
-  return res.json({ id: resp });
+  // let resp = await brandService.insertBrand(name, origin, created_at);
+  return res.json({ id: 'resp' });
 });
 
 router.get("/", async (req, res) => {
@@ -63,14 +58,15 @@ router.put("/:id", async (req, res) => {
   const { id } = req.params;
   let errors = [];
   const validate = ["nome", "origin"];
+
   const body = Object.keys(req.body);
+  const { name, origin } = req.body;
+
   let difference = validate.filter((x) => !body.includes(x));
   let date = new Date();
   let data = date.toLocaleString();
   let regex = new RegExp("/", "g");
   let updated_at = data.replace(regex, "-");
-
-  const { name, origin } = req.body;
 
   difference.forEach((e) => {
     errors.push("Especifique o campo " + e);
@@ -99,5 +95,4 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-
-module.exports = app => app.use('/api/marcas/', router);
+module.exports = (app) => app.use("/api/marcas/", router);
