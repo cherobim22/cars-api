@@ -67,7 +67,7 @@ router.put("/:id", async (req, res) => {
   }
 
   await brandService.updateBrand(id, name, origin, updated_at);
-  return res.json({ msg: "atualizado com sucesso" });
+  return res.json({ success: true });
 });
 
 router.delete("/:id", async (req, res) => {
@@ -76,7 +76,7 @@ router.delete("/:id", async (req, res) => {
 
   if (brand.length) {
     const resp = await brandService.deleteBrand(id);
-    return res.status(200).json({ msg: "removido com sucesso", success: resp });
+    return res.status(200).json({ success: true });
   } else {
     return res
       .status(404)
