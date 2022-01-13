@@ -74,13 +74,17 @@ router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   const brand = await brandService.getBy("id", id);
 
-  if (brand.length) {
-    const resp = await brandService.deleteBrand(id);
-    return res.status(200).json({ success: true });
-  } else {
-    return res
-      .status(404)
-      .json({ msg: "nenhuma marca encontrada com o id " + id });
+  try {
+    if (brand.length) {
+      await brandService.deleteBrand(id);
+      return res.status(200).json({ success: true });
+    } else {
+      return res
+        .status(404)
+        .json({ msg: "nenhuma marca encontrada com o id " + id });
+    }
+  } catch (error) {
+    return res.send(error);
   }
 });
 
