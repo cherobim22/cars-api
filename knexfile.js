@@ -4,19 +4,8 @@ const { attachPaginate } = require('knex-paginate');
 attachPaginate();
 
 module.exports = {
-
   development: {
-    client: 'sqlite3',
-    connection: {
-      filename: './src/database/db.sqlite3'
-    },
-    migrations: {
-      directory: './src/database/migrations'
-    },
-    useNullAsDefault: true,
-  },
-  production: {
-    client: 'postgresql',
+    client: 'mysql',
     connection: {
       host : process.env.HOST,
       port : process.env.PORT,
@@ -32,5 +21,15 @@ module.exports = {
       tableName: 'knex_migrations'
     }
   }
+  // development: {
+  //   client: 'sqlite3',
+  //   connection: {
+  //     filename: './src/database/db.sqlite3'
+  //   },
+  //   migrations: {
+  //     directory: './src/database/migrations'
+  //   },
+  //   useNullAsDefault: true,
+  // }
 
 };
