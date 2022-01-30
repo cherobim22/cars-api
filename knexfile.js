@@ -4,32 +4,32 @@ const { attachPaginate } = require('knex-paginate');
 attachPaginate();
 
 module.exports = {
-  development: {
-    client: 'mysql',
-    connection: {
-      host : process.env.HOST,
-      port : process.env.PORT,
-      user : process.env.USER,
-      password : process.env.PASSWORD,
-      database : process.env.DATABASE
-    },
-    pool: {
-      min: 2,
-      max: 10
-    },
-    migrations: {
-      tableName: 'knex_migrations'
-    }
-  }
   // development: {
-  //   client: 'sqlite3',
+  //   client: 'mysql',
   //   connection: {
-  //     filename: './src/database/db.sqlite3'
+  //     host : '127.0.0.1',
+  //     port : '3306',
+  //     user : 'cherobim',
+  //     password : 'cherobim',
+  //     database : 'cars_api'
+  //   },
+  //   pool: {
+  //     min: 2,
+  //     max: 10
   //   },
   //   migrations: {
   //     directory: './src/database/migrations'
-  //   },
-  //   useNullAsDefault: true,
+  //   }
   // }
+  development: {
+    client: 'sqlite3',
+    connection: {
+      filename: './src/database/db.sqlite3'
+    },
+    migrations: {
+      directory: './src/database/migrations'
+    },
+    useNullAsDefault: true,
+  }
 
 };

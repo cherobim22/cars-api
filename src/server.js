@@ -7,6 +7,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json());
 
-require("./controllers/BrandsController")(app);
+require("./controllers")(app);
+
 
 app.listen(3333);
