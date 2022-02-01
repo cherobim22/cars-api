@@ -20,7 +20,8 @@ router.post("/", async (req, res) => {
     res.status(422).json({ error: "this cars already exists" });
   }
 
-  let resp = await carService.insertCar(name, year, price, fuel, brand_id);
+  let resp = await carService.insertCar(name, year, price, fuel, brand_id, created_at);
+
   return res.json({ id: resp });
 });
 
@@ -28,7 +29,7 @@ router.get("/", async (req, res) => {
   const page = req.query.page ?? 1;
   const date = new Date();
   const now = date.toLocaleString();
-  let string = "";
+  let string = '';
   let start = "01/01/2021 00:00:00";
   let end = now;
 
