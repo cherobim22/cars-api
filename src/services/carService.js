@@ -1,13 +1,15 @@
 const connection = require("../database/connection");
 
 module.exports = {
-  async insertCar(name, year, price, fuel, brand_id ) {
-    return connection("cars").insert({ name, year, price, fuel, brand_id  });
+  async insertCar(name, year, price, fuel, brand_id, created_at ) {
+    return connection("cars").insert({ name, year, price, fuel, brand_id, created_at  });
   },
-  async getCars(start, end, page, string = '') {
+  async getCars(start, end, page, string) {
+    // console.log(string)
     return connection("cars")
       .select("*")
       .where('name', 'like', `%${string}%`)
+      // .orWhere('origin', 'like', `%${string}%`)
       .where((builder) => {
         builder.whereBetween("created_at", [start, end]);
       })
@@ -24,7 +26,7 @@ module.exports = {
   },
   async getBy(key, value) {
     if (key === "id") {
-      return connection("cars").where(key, value);
+      return connection.raw(`select * from cars c  join brands b on b.id = c.brand_id where c.id = ${value}`) ;
     }
 
     return connection("cars").where(key, value).first();

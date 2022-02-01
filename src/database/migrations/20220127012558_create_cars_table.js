@@ -7,7 +7,7 @@ exports.up = function(knex) {
         table.double('price').notNullable();
         table.string('fuel').notNullable();
         table.integer('brand_id').unsigned().index().references('id').inTable('brands');
-        table.timestamp("created_at").defaultTo(Date.now());
+        table.timestamp("created_at");
         table.timestamp("updated_at");
         table.timestamp("deleted_at");
       });
