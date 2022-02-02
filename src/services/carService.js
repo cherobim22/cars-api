@@ -25,10 +25,7 @@ module.exports = {
     return connection("cars").where("id", id).delete();
   },
   async getBy(key, value) {
-    if (key === "id") {
-      return connection.raw(`select * from cars c  join brands b on b.id = c.brand_id where c.id = ${value}`) ;
-    }
-
-    return connection("cars").where(key, value).first();
+   
+    return connection.raw(`select * from cars c  join brands b on b.id = c.brand_id where c.id = ${value}`) ;
   },
 };
